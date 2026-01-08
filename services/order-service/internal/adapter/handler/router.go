@@ -14,6 +14,7 @@ func NewRouter(
 	conf *config.HTTP,
 	userHandler *UserHandler,
 	authHandler *AuthHandler,
+	productHandler *ProductHandler,
 ) *Router {
 	// init router
 	r := gin.New()
@@ -29,6 +30,14 @@ func NewRouter(
 
 	// admin user routes
 	ad.GET("/users", userHandler.GetUsers)
+
+	// public product routes
+	pb.GET("/products", productHandler.GetProducts)
+	pb.GET("/products/:id", productHandler.GetProductByID)
+
+	// admin product routes
+	ad.POST("/products", productHandler.CreateProduct)
+	ad.DELETE("/products/:id", productHandler.DeleteProduct)
 
 	return &Router{r}
 }
