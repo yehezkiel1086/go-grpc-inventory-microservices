@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package inventory;
+option go_package = "github.com/yehezkiel1086/go-grpc-inventory-microservices/protobuf/inventory";
+
+service InventoryService {
+  rpc CreateInventory(CreateInventoryReq) returns (CreateInventoryRes) {}
+}
+
+message CreateInventoryReq {
+  int64 product_id = 1;
+  int32 quantity = 2;
+}
+
+message CreateInventoryRes {
+  bool success = 1;
+}
