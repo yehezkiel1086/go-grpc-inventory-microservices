@@ -4,14 +4,43 @@ package inventory;
 option go_package = "github.com/yehezkiel1086/go-grpc-inventory-microservices/protobuf/inventory";
 
 service InventoryService {
-  rpc CreateInventory(CreateInventoryReq) returns (CreateInventoryRes) {}
+  rpc InitStock(InitStockReq) returns (InitStockRes) {}
+  rpc CheckStock(CheckStockReq) returns (CheckStockRes) {}
+  rpc ReduceStock(ReduceStockReq) returns (ReduceStockRes) {}
+  rpc Restock(RestockReq) returns (RestockRes) {}
 }
 
-message CreateInventoryReq {
+message InitStockReq {
   int64 product_id = 1;
   int32 quantity = 2;
 }
 
-message CreateInventoryRes {
+message InitStockRes {
+  bool success = 1;
+}
+
+message CheckStockReq {
+  int64 product_id = 1;
+}
+
+message CheckStockRes {
+  int32 quantity = 1;
+}
+
+message ReduceStockReq {
+  int64 product_id = 1;
+  int32 quantity = 2;
+}
+
+message ReduceStockRes {
+  bool success = 1;
+}
+
+message RestockReq {
+  int64 product_id = 1;
+  int32 quantity = 2;
+}
+
+message RestockRes {
   bool success = 1;
 }

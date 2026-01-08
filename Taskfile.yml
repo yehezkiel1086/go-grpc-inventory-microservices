@@ -23,5 +23,9 @@ tasks:
     cmd: protoc --go_out=services/common/genproto/inventory --go_opt=paths=source_relative --go-grpc_out=services/common/genproto/inventory --go-grpc_opt=paths=source_relative protobuf/inventory.proto
 
   dev:order:
-    desc: "run order services locally"
+    desc: "run order http services locally"
     cmd: go run services/order-service/cmd/http/main.go
+
+  dev:inventory:
+    desc: "run inventory grpc services locally"
+    cmd: go run services/inventory-service/cmd/grpc/main.go
