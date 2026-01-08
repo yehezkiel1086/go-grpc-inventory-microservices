@@ -21,7 +21,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("✅ .env configs loaded successfully")
+	fmt.Println(".env configs loaded successfully")
 
 	// init context
 	ctx := context.Background()
@@ -31,13 +31,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("✅ DB connection established successfully")
+	fmt.Println("DB connection established successfully")
 
 	// migrate dbs
 	if err := db.Migrate(&domain.User{}, &domain.Product{}); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("✅ DB migrated successfully")
+	fmt.Println("DB migrated successfully")
 
 	// init grpc connection
 	clientUri := fmt.Sprintf("%s:%s", conf.GRPC.Host, conf.GRPC.Port)
@@ -45,7 +45,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("✅ GRPC connection established successfully")
+	fmt.Println("GRPC connection established successfully")
 
 	// init grpc clients
 	inventoryClient := inventory.NewInventoryServiceClient(conn)

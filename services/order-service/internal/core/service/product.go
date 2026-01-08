@@ -45,8 +45,29 @@ func (ps *ProductService) GetProducts(ctx context.Context) ([]domain.Product, er
 	return ps.repo.GetProducts(ctx)
 }
 
-func (ps *ProductService) GetProductByID(ctx context.Context, id uint) (*domain.Product, error) {
-	return ps.repo.GetProductByID(ctx, id)
+func (ps *ProductService) GetProductByID(ctx context.Context, id uint) (*domain.ProductRes, error) {
+	// get product
+	prod, err := ps.repo.GetProductByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	// get quantity (check stock)
+	stock, err := ps.inventoryClient.CheckStock(ctx, &inventory.CheckStockReq{
+		ProductId: int64(prod.ID),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &domain.ProductRes{
+		ID:    prod.ID,
+		Name:  prod.Name,
+		Price: prod.Price,
+		Qty:   int(stock.Quantity),
+		CreatedAt: prod.CreatedAt,
+		UpdatedAt: prod.UpdatedAt,
+	}, nil
 }
 
 func (ps *ProductService) DeleteProduct(ctx context.Context, id uint) error {
