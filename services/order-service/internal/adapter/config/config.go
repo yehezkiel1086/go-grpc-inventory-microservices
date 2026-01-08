@@ -11,6 +11,7 @@ type (
 	Container struct {
 		App  *App
 		HTTP *HTTP
+		GRPC *GRPC
 		DB   *DB
 		JWT  *JWT
 	}
@@ -24,6 +25,11 @@ type (
 		Host           string
 		Port           string
 		AllowedOrigins string
+	}
+
+	GRPC struct {
+		Host string
+		Port string
 	}
 
 	DB struct {
@@ -60,6 +66,11 @@ func New() (*Container, error) {
 		AllowedOrigins: os.Getenv("HTTP_ALLOWED_ORIGINS"),
 	}
 
+	GRPC := &GRPC{
+		Host: os.Getenv("GRPC_HOST"),
+		Port: os.Getenv("GRPC_PORT"),
+	}
+
 	DB := &DB{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
@@ -76,6 +87,7 @@ func New() (*Container, error) {
 	return &Container{
 		App:  App,
 		HTTP: HTTP,
+		GRPC: GRPC,
 		DB:   DB,
 		JWT:  JWT,
 	}, nil

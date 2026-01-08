@@ -14,7 +14,7 @@ type ProductRepository interface {
 }
 
 type ProductService interface {
-	CreateProduct(ctx context.Context, product *domain.Product) (*domain.Product, error)
+	CreateProduct(ctx context.Context, req *domain.CreateProductReq) (*domain.Product, error)
 	GetProducts(ctx context.Context) ([]domain.Product, error)
 	GetProductByID(ctx context.Context, id uint) (*domain.Product, error)
 	DeleteProduct(ctx context.Context, id uint) error

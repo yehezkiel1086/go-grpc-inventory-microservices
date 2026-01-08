@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"log"
 
+	inventory "github.com/yehezkiel1086/go-grpc-inventory-microservices/services/common/genproto/inventory/protobuf"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/config"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/handler"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/postgres"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/postgres/repository"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/service"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -37,6 +39,17 @@ func main() {
 	}
 	fmt.Println("✅ DB migrated successfully")
 
+	// init grpc connection
+	clientUri := fmt.Sprintf("%s:%s", conf.GRPC.Host, conf.GRPC.Port)
+	conn, err := grpc.Dial(clientUri, grpc.WithInsecure())
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("✅ GRPC connection established successfully")
+
+	// init grpc clients
+	inventoryClient := inventory.NewInventoryServiceClient(conn)
+
 	// dependency injections
 	userRepo := repository.NewUserRepository(db)
 	userSvc := service.NewUserService(userRepo)
@@ -46,7 +59,7 @@ func main() {
 	authHandler := handler.NewAuthHandler(conf.JWT, authSvc)
 
 	productRepo := repository.NewProductRepository(db)
-	productSvc := service.NewProductService(productRepo)
+	productSvc := service.NewProductService(productRepo, inventoryClient)
 	productHandler := handler.NewProductHandler(productSvc)
 
 	// init router

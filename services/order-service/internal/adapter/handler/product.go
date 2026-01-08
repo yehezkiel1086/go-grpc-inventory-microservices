@@ -19,13 +19,8 @@ func NewProductHandler(svc port.ProductService) *ProductHandler {
 	}
 }
 
-type CreateProductReq struct {
-	Name  string  `json:"name" binding:"required"`
-	Price float64 `json:"price" binding:"required"`
-}
-
 func (ph *ProductHandler) CreateProduct(c *gin.Context) {
-	var req CreateProductReq
+	var req domain.CreateProductReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -33,10 +28,7 @@ func (ph *ProductHandler) CreateProduct(c *gin.Context) {
 
 	product, err := ph.svc.CreateProduct(
 		c.Request.Context(),
-		&domain.Product{
-			Name:  req.Name,
-			Price: req.Price,
-		},
+		&req,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
