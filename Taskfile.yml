@@ -16,8 +16,12 @@ tasks:
   
   db:cli:
     desc: "access postgres db cli"
-    cmd: docker exec postgres psql -U {{ .DB_USER }} -b {{ .DB_NAME }}
+    cmd: docker exec -it postgres psql -U {{ .DB_USER }} -b {{ .DB_NAME }}
 
   gen:inventory:
     desc: "generate inventory protobuf"
     cmd: protoc --go_out=services/common/genproto/inventory --go_opt=paths=source_relative --go-grpc_out=services/common/genproto/inventory --go-grpc_opt=paths=source_relative protobuf/inventory.proto
+
+  dev:order:
+    desc: "run order services locally"
+    cmd: go run services/order-service/cmd/http/main.go
