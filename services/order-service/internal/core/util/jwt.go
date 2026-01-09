@@ -20,6 +20,7 @@ func GenerateJWTToken(conf *config.JWT, user *domain.User) (string, error) {
 
 	// Create claims with multiple fields populated
 	claims := domain.JWTClaims{
+		ID:    user.ID,
 		Email: user.Email,
 		Role:  user.Role,
 		RegisteredClaims: jwt.RegisteredClaims{

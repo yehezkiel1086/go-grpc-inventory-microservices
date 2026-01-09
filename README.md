@@ -1,9 +1,11 @@
 # Go gRPC Inventory Microservices
 
-- [x] order-service: user & auth
-- [x] order-service: product
-- [ ] order-service: order
-- [ ] inventory-service
+- [x] inventory-service (gRPC)
+- [x] order-service (REST)
+  - [x] user & auth
+  - [x] product
+  - [x] order
+- [] notification-service (Rabbitmq)
 
 ## Architecture
 

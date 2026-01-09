@@ -34,7 +34,7 @@ func main() {
 	fmt.Println("DB connection established successfully")
 
 	// migrate dbs
-	if err := db.Migrate(&domain.User{}, &domain.Product{}); err != nil {
+	if err := db.Migrate(&domain.User{}, &domain.Product{}, &domain.Order{}); err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("DB migrated successfully")
@@ -62,12 +62,17 @@ func main() {
 	productSvc := service.NewProductService(productRepo, inventoryClient)
 	productHandler := handler.NewProductHandler(productSvc)
 
+	orderRepo := repository.NewOrderRepository(db)
+	orderSvc := service.NewOrderService(orderRepo, inventoryClient)
+	orderHandler := handler.NewOrderHandler(orderSvc)
+
 	// init router
 	r := handler.NewRouter(
 		conf.HTTP,
 		userHandler,
 		authHandler,
 		productHandler,
+		orderHandler,
 	)
 
 	// start server

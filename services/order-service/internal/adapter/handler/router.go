@@ -15,13 +15,14 @@ func NewRouter(
 	userHandler *UserHandler,
 	authHandler *AuthHandler,
 	productHandler *ProductHandler,
+	orderHandler *OrderHandler,
 ) *Router {
 	// init router
 	r := gin.New()
 
 	// group routes
 	pb := r.Group("/api/v1")
-	// us := pb.Group("/", AuthMiddleware(), RoleMiddleware(domain.UserRole, domain.AdminRole))
+	us := pb.Group("/", AuthMiddleware(), RoleMiddleware(domain.UserRole, domain.AdminRole))
 	ad := pb.Group("/", AuthMiddleware(), RoleMiddleware(domain.AdminRole))
 
 	// public user and auth routes
@@ -38,6 +39,12 @@ func NewRouter(
 	// admin product routes
 	ad.POST("/products", productHandler.CreateProduct)
 	ad.DELETE("/products/:id", productHandler.DeleteProduct)
+
+	// user order routes
+	us.POST("/orders", orderHandler.CreateOrder)
+	us.GET("/orders", orderHandler.GetUserOrders)
+	us.GET("/orders/:id", orderHandler.GetOrderByID)
+	us.PUT("/orders/:id", orderHandler.UpdatePaymentStatus)
 
 	return &Router{r}
 }
