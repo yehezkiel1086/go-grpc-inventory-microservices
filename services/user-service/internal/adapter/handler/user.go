@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/port"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/core/domain"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/core/port"
 )
 
 type UserHandler struct {

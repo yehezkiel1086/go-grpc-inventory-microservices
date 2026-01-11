@@ -62,7 +62,7 @@ func New() (*Container, error) {
 
 	HTTP := &HTTP{
 		Host:           os.Getenv("HTTP_HOST"),
-		Port:           os.Getenv("HTTP_PORT_ORDER"),
+		Port:           os.Getenv("HTTP_PORT_USER"),
 		AllowedOrigins: os.Getenv("HTTP_ALLOWED_ORIGINS"),
 	}
 

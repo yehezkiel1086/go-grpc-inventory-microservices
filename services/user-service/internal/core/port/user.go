@@ -3,7 +3,7 @@ package port
 import (
 	"context"
 
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/core/domain"
 )
 
 type UserRepository interface {

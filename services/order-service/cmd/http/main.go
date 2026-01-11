@@ -51,13 +51,6 @@ func main() {
 	inventoryClient := inventory.NewInventoryServiceClient(conn)
 
 	// dependency injections
-	userRepo := repository.NewUserRepository(db)
-	userSvc := service.NewUserService(userRepo)
-	userHandler := handler.NewUserHandler(userSvc)
-
-	authSvc := service.NewAuthService(conf.JWT, userRepo)
-	authHandler := handler.NewAuthHandler(conf.JWT, authSvc)
-
 	productRepo := repository.NewProductRepository(db)
 	productSvc := service.NewProductService(productRepo, inventoryClient)
 	productHandler := handler.NewProductHandler(productSvc)
@@ -69,8 +62,6 @@ func main() {
 	// init router
 	r := handler.NewRouter(
 		conf.HTTP,
-		userHandler,
-		authHandler,
 		productHandler,
 		orderHandler,
 	)

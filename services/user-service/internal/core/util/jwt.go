@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/config"
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/adapter/config"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/core/domain"
 )
 
 func GenerateJWTToken(conf *config.JWT, user *domain.User) (string, error) {

@@ -12,8 +12,6 @@ type Router struct {
 
 func NewRouter(
 	conf *config.HTTP,
-	userHandler *UserHandler,
-	authHandler *AuthHandler,
 	productHandler *ProductHandler,
 	orderHandler *OrderHandler,
 ) *Router {
@@ -24,13 +22,6 @@ func NewRouter(
 	pb := r.Group("/api/v1")
 	us := pb.Group("/", AuthMiddleware(), RoleMiddleware(domain.UserRole, domain.AdminRole))
 	ad := pb.Group("/", AuthMiddleware(), RoleMiddleware(domain.AdminRole))
-
-	// public user and auth routes
-	pb.POST("/login", authHandler.Login)
-	pb.POST("/register", userHandler.RegisterUser)
-
-	// admin user routes
-	ad.GET("/users", userHandler.GetUsers)
 
 	// public product routes
 	pb.GET("/products", productHandler.GetProducts)

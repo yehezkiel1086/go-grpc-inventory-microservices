@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/config"
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/port"
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/util"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/adapter/config"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/core/port"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/user-service/internal/core/util"
 )
 
 type AuthService struct {
