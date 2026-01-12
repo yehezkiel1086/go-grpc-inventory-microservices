@@ -33,3 +33,7 @@ tasks:
   dev:inventory:
     desc: "run inventory grpc services locally"
     cmd: go run services/inventory-service/cmd/grpc/main.go
+
+  dev:notification:
+    desc: "run notification rabbitmq services locally"
+    cmd: go run services/notification-service/cmd/rabbitmq/main.go

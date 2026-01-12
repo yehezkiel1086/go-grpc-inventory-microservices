@@ -11,7 +11,20 @@ services:
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     container_name: postgres
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    volumes:
+      - ./rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672" # RabbitMQ Management UI port
+    container_name: rabbitmq
 
 volumes:
   postgres_data:
+    driver: local
+  rabbitmq_data:
     driver: local
