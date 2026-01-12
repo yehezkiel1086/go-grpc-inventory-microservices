@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 
+	amqp "github.com/rabbitmq/amqp091-go"
 	inventory "github.com/yehezkiel1086/go-grpc-inventory-microservices/services/common/genproto/inventory/protobuf"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/rabbitmq"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/port"
 )
@@ -12,12 +14,16 @@ import (
 type OrderService struct {
 	repo port.OrderRepository
 	inventoryClient inventory.InventoryServiceClient
+	mq *rabbitmq.Rabbitmq
+	q *amqp.Queue
 }
 
-func NewOrderService(repo port.OrderRepository, inventoryClient inventory.InventoryServiceClient) *OrderService {
+func NewOrderService(repo port.OrderRepository, inventoryClient inventory.InventoryServiceClient, mq *rabbitmq.Rabbitmq, q *amqp.Queue) *OrderService {
 	return &OrderService{
 		repo,
 		inventoryClient,
+		mq,
+		q,
 	}
 }
 
@@ -38,6 +44,11 @@ func (os *OrderService) CreateOrder(ctx context.Context, order *domain.Order) (*
 	// calculate total price
 	totalPrice := float64(order.Qty) * order.Product.Price
 	order.TotalPrice = totalPrice
+
+	// send notification
+	if err := os.mq.Publish(ctx, os.q, "new order created"); err != nil {
+		return nil, err
+	}
 
 	return os.repo.CreateOrder(ctx, order)
 }

@@ -10,17 +10,22 @@ import (
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/handler"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/postgres"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/postgres/repository"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/rabbitmq"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/service"
 	"google.golang.org/grpc"
 )
 
+func failOnError(err error, msg string) {
+  if err != nil {
+    log.Panicf("%s: %s", msg, err)
+  }
+}
+
 func main() {
 	// load .env configs
 	conf, err := config.New()
-	if err != nil {
-		log.Fatal(err)
-	}
+	failOnError(err, "failed to load .env configs")
 	fmt.Println(".env configs loaded successfully")
 
 	// init context
@@ -28,35 +33,43 @@ func main() {
 
 	// init db connection
 	db, err := postgres.New(ctx, conf.DB)
-	if err != nil {
-		log.Fatal(err)
-	}
+	failOnError(err, "failed to init db connection")
 	fmt.Println("DB connection established successfully")
 
 	// migrate dbs
-	if err := db.Migrate(&domain.User{}, &domain.Product{}, &domain.Order{}); err != nil {
-		log.Fatal(err)
-	}
+	err = db.Migrate(&domain.User{}, &domain.Product{}, &domain.Order{})
+	failOnError(err, "failed to migrate dbs")
 	fmt.Println("DB migrated successfully")
 
 	// init grpc connection
 	clientUri := fmt.Sprintf("%s:%s", conf.GRPC.Host, conf.GRPC.Port)
 	conn, err := grpc.Dial(clientUri, grpc.WithInsecure())
-	if err != nil {
-		log.Fatal(err)
-	}
+	failOnError(err, "failed to init grpc connection")
 	fmt.Println("GRPC connection established successfully")
 
 	// init grpc clients
 	inventoryClient := inventory.NewInventoryServiceClient(conn)
 
+	// init rabbitmq
+	mq, err := rabbitmq.New(conf.Rabbitmq)
+	failOnError(err, "failed to init rabbitmq")
+	fmt.Println("rabbitmq initialized successfully")
+
+	defer mq.CloseConn()
+	defer mq.CloseChan()
+
+	// declare queue
+	q, err := mq.DeclareQueue("notification_queue")
+	failOnError(err, "failed to declare queue")
+	fmt.Println("queue declared successfully")
+
 	// dependency injections
 	productRepo := repository.NewProductRepository(db)
-	productSvc := service.NewProductService(productRepo, inventoryClient)
+	productSvc := service.NewProductService(productRepo, inventoryClient, mq, q)
 	productHandler := handler.NewProductHandler(productSvc)
 
 	orderRepo := repository.NewOrderRepository(db)
-	orderSvc := service.NewOrderService(orderRepo, inventoryClient)
+	orderSvc := service.NewOrderService(orderRepo, inventoryClient, mq, q)
 	orderHandler := handler.NewOrderHandler(orderSvc)
 
 	// init router

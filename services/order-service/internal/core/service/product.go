@@ -3,7 +3,9 @@ package service
 import (
 	"context"
 
+	amqp "github.com/rabbitmq/amqp091-go"
 	inventory "github.com/yehezkiel1086/go-grpc-inventory-microservices/services/common/genproto/inventory/protobuf"
+	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/rabbitmq"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/port"
 )
@@ -11,12 +13,16 @@ import (
 type ProductService struct {
 	inventoryClient inventory.InventoryServiceClient
 	repo port.ProductRepository
+	mq *rabbitmq.Rabbitmq
+	q *amqp.Queue
 }
 
-func NewProductService(repo port.ProductRepository, inventoryClient inventory.InventoryServiceClient) *ProductService {
+func NewProductService(repo port.ProductRepository, inventoryClient inventory.InventoryServiceClient, mq *rabbitmq.Rabbitmq, q *amqp.Queue) *ProductService {
 	return &ProductService{
 		inventoryClient,
 		repo,
+		mq,
+		q,
 	}
 }
 
@@ -35,6 +41,11 @@ func (ps *ProductService) CreateProduct(ctx context.Context, req *domain.CreateP
 		ProductId: int64(prod.ID),
 		Quantity: int32(req.Qty),
 	}); err != nil {
+		return nil, err
+	}
+
+	// send notification
+	if err := ps.mq.Publish(ctx, ps.q, "product created"); err != nil {
 		return nil, err
 	}
 

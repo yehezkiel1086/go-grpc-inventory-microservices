@@ -21,20 +21,20 @@ func main() {
 	fmt.Println(".env configs loaded successfully")
 
 	// init rabbitmq
-	r, err := rabbitmq.New(conf.Rabbitmq)
+	mq, err := rabbitmq.New(conf.Rabbitmq)
 	failOnError(err, "failed to init rabbitmq")
 	fmt.Println("rabbitmq initialized successfully")
 
-	defer r.CloseConn()
-	defer r.CloseChan()
+	defer mq.CloseConn()
+	defer mq.CloseChan()
 
-	// declare queue
-	q, err := r.DeclareQueue()
+	// declare queues
+	q, err := mq.DeclareQueue("notification_queue")
 	failOnError(err, "failed to declare queue")
 	fmt.Println("queue declared successfully")
 
 	// consume messages
-	msgs, err := r.Consume(q)
+	msgs, err := mq.Consume(q)
 	failOnError(err, "Failed to register a consumer")
 	fmt.Println("consumer registered successfully")
 
