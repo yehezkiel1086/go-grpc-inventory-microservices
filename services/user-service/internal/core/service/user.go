@@ -10,15 +10,18 @@ import (
 
 type UserService struct {
 	repo port.UserRepository
+	notifRepo port.NotificationRepository
 }
 
-func NewUserService(repo port.UserRepository) *UserService {
+func NewUserService(repo port.UserRepository, notifRepo port.NotificationRepository) *UserService {
 	return &UserService{
 		repo,
+		notifRepo,
 	}
 }
 
 func (us *UserService) RegisterUser(ctx context.Context, user *domain.User) (*domain.UserResponse, error) {
+	// hash password
 	hashedPwd, err := util.HashPassword(user.Password)
 	if err != nil {
 		return nil, err
@@ -26,7 +29,17 @@ func (us *UserService) RegisterUser(ctx context.Context, user *domain.User) (*do
 
 	user.Password = hashedPwd
 
-	return us.repo.CreateUser(ctx, user)
+	res, err := us.repo.CreateUser(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	// send email notification
+	if err := us.notifRepo.SendEmailNotification(ctx, res.Email); err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 func (us *UserService) GetUsers(ctx context.Context) ([]domain.UserResponse, error) {

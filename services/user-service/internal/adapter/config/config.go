@@ -12,6 +12,7 @@ type (
 		App  *App
 		HTTP *HTTP
 		GRPC *GRPC
+		Rabbitmq *Rabbitmq
 		DB   *DB
 		JWT  *JWT
 	}
@@ -30,6 +31,13 @@ type (
 	GRPC struct {
 		Host string
 		Port string
+	}
+
+	Rabbitmq struct {
+		Host string
+		Port string
+		User string
+		Password string
 	}
 
 	DB struct {
@@ -71,6 +79,13 @@ func New() (*Container, error) {
 		Port: os.Getenv("GRPC_PORT"),
 	}
 
+	Rabbitmq := &Rabbitmq{
+		Host: os.Getenv("RABBITMQ_HOST"),
+		Port: os.Getenv("RABBITMQ_PORT"),
+		User: os.Getenv("RABBITMQ_USER"),
+		Password: os.Getenv("RABBITMQ_PASSWORD"),
+	}
+
 	DB := &DB{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
@@ -88,6 +103,7 @@ func New() (*Container, error) {
 		App:  App,
 		HTTP: HTTP,
 		GRPC: GRPC,
+		Rabbitmq: Rabbitmq,
 		DB:   DB,
 		JWT:  JWT,
 	}, nil
