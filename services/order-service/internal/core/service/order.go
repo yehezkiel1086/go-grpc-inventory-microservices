@@ -3,10 +3,9 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 
-	amqp "github.com/rabbitmq/amqp091-go"
 	inventory "github.com/yehezkiel1086/go-grpc-inventory-microservices/services/common/genproto/inventory/protobuf"
-	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/rabbitmq"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/port"
 )
@@ -14,16 +13,14 @@ import (
 type OrderService struct {
 	repo port.OrderRepository
 	inventoryClient inventory.InventoryServiceClient
-	mq *rabbitmq.Rabbitmq
-	q *amqp.Queue
+	notifRepo port.NotificationRepository
 }
 
-func NewOrderService(repo port.OrderRepository, inventoryClient inventory.InventoryServiceClient, mq *rabbitmq.Rabbitmq, q *amqp.Queue) *OrderService {
+func NewOrderService(repo port.OrderRepository, inventoryClient inventory.InventoryServiceClient, notifRepo port.NotificationRepository) *OrderService {
 	return &OrderService{
 		repo,
 		inventoryClient,
-		mq,
-		q,
+		notifRepo,
 	}
 }
 
@@ -46,7 +43,7 @@ func (os *OrderService) CreateOrder(ctx context.Context, order *domain.Order) (*
 	order.TotalPrice = totalPrice
 
 	// send notification
-	if err := os.mq.Publish(ctx, os.q, "new order created"); err != nil {
+	if err := os.notifRepo.SendNotification(ctx, fmt.Sprintf("%d(%d): new order created", order.ProductID, order.Qty)); err != nil {
 		return nil, err
 	}
 
@@ -62,5 +59,15 @@ func (os *OrderService) GetOrderByID(ctx context.Context, id uint) (*domain.Orde
 }
 
 func (os *OrderService) UpdatePaymentStatus(ctx context.Context, id uint, status domain.OrderStatus) (*domain.Order, error) {
-	return os.repo.UpdatePaymentStatus(ctx, id, status)
+	order, err := os.repo.UpdatePaymentStatus(ctx, id, status)
+	if err != nil {
+		return nil, err
+	}
+
+	// send notification
+	if err := os.notifRepo.SendNotification(ctx, fmt.Sprintf("%d(%d): payment status updated", id, status)); err != nil {
+		return nil, err
+	}
+
+	return order, nil
 }

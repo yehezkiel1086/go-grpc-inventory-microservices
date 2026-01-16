@@ -35,7 +35,7 @@ func NewRouter(
 	us.POST("/orders", orderHandler.CreateOrder)
 	us.GET("/orders", orderHandler.GetUserOrders)
 	us.GET("/orders/:id", orderHandler.GetOrderByID)
-	us.PUT("/orders/:id", orderHandler.UpdatePaymentStatus)
+	us.PUT("/orders/payment/:id", orderHandler.UpdatePaymentStatus)
 
 	return &Router{r}
 }

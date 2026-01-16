@@ -59,11 +59,6 @@ func main() {
 	defer mq.CloseConn()
 	defer mq.CloseChan()
 
-	// declare queue
-	q, err := mq.DeclareQueue("notification_queue")
-	failOnError(err, "failed to declare queue")
-	fmt.Println("queue declared successfully")
-
 	// dependency injections
 	notifRepo, err := rabbitmqRepo.NewNotificationRepository(mq)
 	failOnError(err, "failed to init notification repository")
@@ -73,7 +68,8 @@ func main() {
 	productHandler := handler.NewProductHandler(productSvc)
 
 	orderRepo := repository.NewOrderRepository(db)
-	orderSvc := service.NewOrderService(orderRepo, inventoryClient, mq, q)
+
+	orderSvc := service.NewOrderService(orderRepo, inventoryClient, notifRepo)
 	orderHandler := handler.NewOrderHandler(orderSvc)
 
 	// init router
