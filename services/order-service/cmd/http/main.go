@@ -11,6 +11,7 @@ import (
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/postgres"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/postgres/repository"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/rabbitmq"
+	rabbitmqRepo "github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/adapter/storage/rabbitmq/repository"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/domain"
 	"github.com/yehezkiel1086/go-grpc-inventory-microservices/services/order-service/internal/core/service"
 	"google.golang.org/grpc"
@@ -64,8 +65,11 @@ func main() {
 	fmt.Println("queue declared successfully")
 
 	// dependency injections
+	notifRepo, err := rabbitmqRepo.NewNotificationRepository(mq)
+	failOnError(err, "failed to init notification repository")
+
 	productRepo := repository.NewProductRepository(db)
-	productSvc := service.NewProductService(productRepo, inventoryClient, mq, q)
+	productSvc := service.NewProductService(productRepo, inventoryClient, notifRepo)
 	productHandler := handler.NewProductHandler(productSvc)
 
 	orderRepo := repository.NewOrderRepository(db)

@@ -23,6 +23,7 @@ const (
 	InventoryService_CheckStock_FullMethodName  = "/inventory.InventoryService/CheckStock"
 	InventoryService_ReduceStock_FullMethodName = "/inventory.InventoryService/ReduceStock"
 	InventoryService_Restock_FullMethodName     = "/inventory.InventoryService/Restock"
+	InventoryService_DeleteStock_FullMethodName = "/inventory.InventoryService/DeleteStock"
 )
 
 // InventoryServiceClient is the client API for InventoryService service.
@@ -33,6 +34,7 @@ type InventoryServiceClient interface {
 	CheckStock(ctx context.Context, in *CheckStockReq, opts ...grpc.CallOption) (*CheckStockRes, error)
 	ReduceStock(ctx context.Context, in *ReduceStockReq, opts ...grpc.CallOption) (*ReduceStockRes, error)
 	Restock(ctx context.Context, in *RestockReq, opts ...grpc.CallOption) (*RestockRes, error)
+	DeleteStock(ctx context.Context, in *DeleteStockReq, opts ...grpc.CallOption) (*DeleteStockRes, error)
 }
 
 type inventoryServiceClient struct {
@@ -83,6 +85,16 @@ func (c *inventoryServiceClient) Restock(ctx context.Context, in *RestockReq, op
 	return out, nil
 }
 
+func (c *inventoryServiceClient) DeleteStock(ctx context.Context, in *DeleteStockReq, opts ...grpc.CallOption) (*DeleteStockRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteStockRes)
+	err := c.cc.Invoke(ctx, InventoryService_DeleteStock_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InventoryServiceServer is the server API for InventoryService service.
 // All implementations must embed UnimplementedInventoryServiceServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type InventoryServiceServer interface {
 	CheckStock(context.Context, *CheckStockReq) (*CheckStockRes, error)
 	ReduceStock(context.Context, *ReduceStockReq) (*ReduceStockRes, error)
 	Restock(context.Context, *RestockReq) (*RestockRes, error)
+	DeleteStock(context.Context, *DeleteStockReq) (*DeleteStockRes, error)
 	mustEmbedUnimplementedInventoryServiceServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedInventoryServiceServer) ReduceStock(context.Context, *ReduceS
 }
 func (UnimplementedInventoryServiceServer) Restock(context.Context, *RestockReq) (*RestockRes, error) {
 	return nil, status.Error(codes.Unimplemented, "method Restock not implemented")
+}
+func (UnimplementedInventoryServiceServer) DeleteStock(context.Context, *DeleteStockReq) (*DeleteStockRes, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteStock not implemented")
 }
 func (UnimplementedInventoryServiceServer) mustEmbedUnimplementedInventoryServiceServer() {}
 func (UnimplementedInventoryServiceServer) testEmbeddedByValue()                          {}
@@ -206,6 +222,24 @@ func _InventoryService_Restock_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _InventoryService_DeleteStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteStockReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InventoryServiceServer).DeleteStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: InventoryService_DeleteStock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InventoryServiceServer).DeleteStock(ctx, req.(*DeleteStockReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // InventoryService_ServiceDesc is the grpc.ServiceDesc for InventoryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var InventoryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Restock",
 			Handler:    _InventoryService_Restock_Handler,
+		},
+		{
+			MethodName: "DeleteStock",
+			Handler:    _InventoryService_DeleteStock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

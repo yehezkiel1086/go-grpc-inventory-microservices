@@ -81,3 +81,8 @@ func (repo *InventoryRepository) Restock(ctx context.Context, productId int, qty
 
 	return &inventory, nil
 }
+
+func (repo *InventoryRepository) DeleteStock(ctx context.Context, productId int) error {
+	db := repo.db.GetDB()
+	return db.WithContext(ctx).Where("product_id = ?", productId).Delete(&domain.Inventory{}).Error
+}

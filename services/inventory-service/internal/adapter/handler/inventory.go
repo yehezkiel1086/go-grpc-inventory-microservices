@@ -68,3 +68,15 @@ func (h *InventoryHandler) Restock(ctx context.Context, req *inventory.RestockRe
 		Success: true,
 	}, nil
 }
+
+func (h *InventoryHandler) DeleteStock(ctx context.Context, req *inventory.DeleteStockReq) (*inventory.DeleteStockRes, error) {
+	if err := h.svc.DeleteStock(ctx, int(req.ProductId)); err != nil {
+		return &inventory.DeleteStockRes{
+			Success: false,
+		}, err
+	}
+
+	return &inventory.DeleteStockRes{
+		Success: true,
+	}, nil
+}

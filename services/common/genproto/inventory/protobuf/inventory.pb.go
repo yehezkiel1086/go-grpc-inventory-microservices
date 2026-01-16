@@ -21,6 +21,94 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type DeleteStockReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     int64                  `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteStockReq) Reset() {
+	*x = DeleteStockReq{}
+	mi := &file_protobuf_inventory_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteStockReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteStockReq) ProtoMessage() {}
+
+func (x *DeleteStockReq) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_inventory_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteStockReq.ProtoReflect.Descriptor instead.
+func (*DeleteStockReq) Descriptor() ([]byte, []int) {
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DeleteStockReq) GetProductId() int64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+type DeleteStockRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteStockRes) Reset() {
+	*x = DeleteStockRes{}
+	mi := &file_protobuf_inventory_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteStockRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteStockRes) ProtoMessage() {}
+
+func (x *DeleteStockRes) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_inventory_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteStockRes.ProtoReflect.Descriptor instead.
+func (*DeleteStockRes) Descriptor() ([]byte, []int) {
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DeleteStockRes) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 type InitStockReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProductId     int64                  `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
@@ -31,7 +119,7 @@ type InitStockReq struct {
 
 func (x *InitStockReq) Reset() {
 	*x = InitStockReq{}
-	mi := &file_protobuf_inventory_proto_msgTypes[0]
+	mi := &file_protobuf_inventory_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +131,7 @@ func (x *InitStockReq) String() string {
 func (*InitStockReq) ProtoMessage() {}
 
 func (x *InitStockReq) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[0]
+	mi := &file_protobuf_inventory_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +144,7 @@ func (x *InitStockReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitStockReq.ProtoReflect.Descriptor instead.
 func (*InitStockReq) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{0}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *InitStockReq) GetProductId() int64 {
@@ -82,7 +170,7 @@ type InitStockRes struct {
 
 func (x *InitStockRes) Reset() {
 	*x = InitStockRes{}
-	mi := &file_protobuf_inventory_proto_msgTypes[1]
+	mi := &file_protobuf_inventory_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +182,7 @@ func (x *InitStockRes) String() string {
 func (*InitStockRes) ProtoMessage() {}
 
 func (x *InitStockRes) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[1]
+	mi := &file_protobuf_inventory_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +195,7 @@ func (x *InitStockRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitStockRes.ProtoReflect.Descriptor instead.
 func (*InitStockRes) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{1}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *InitStockRes) GetSuccess() bool {
@@ -126,7 +214,7 @@ type CheckStockReq struct {
 
 func (x *CheckStockReq) Reset() {
 	*x = CheckStockReq{}
-	mi := &file_protobuf_inventory_proto_msgTypes[2]
+	mi := &file_protobuf_inventory_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +226,7 @@ func (x *CheckStockReq) String() string {
 func (*CheckStockReq) ProtoMessage() {}
 
 func (x *CheckStockReq) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[2]
+	mi := &file_protobuf_inventory_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +239,7 @@ func (x *CheckStockReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckStockReq.ProtoReflect.Descriptor instead.
 func (*CheckStockReq) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{2}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CheckStockReq) GetProductId() int64 {
@@ -170,7 +258,7 @@ type CheckStockRes struct {
 
 func (x *CheckStockRes) Reset() {
 	*x = CheckStockRes{}
-	mi := &file_protobuf_inventory_proto_msgTypes[3]
+	mi := &file_protobuf_inventory_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -182,7 +270,7 @@ func (x *CheckStockRes) String() string {
 func (*CheckStockRes) ProtoMessage() {}
 
 func (x *CheckStockRes) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[3]
+	mi := &file_protobuf_inventory_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -195,7 +283,7 @@ func (x *CheckStockRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckStockRes.ProtoReflect.Descriptor instead.
 func (*CheckStockRes) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{3}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CheckStockRes) GetQuantity() int32 {
@@ -215,7 +303,7 @@ type ReduceStockReq struct {
 
 func (x *ReduceStockReq) Reset() {
 	*x = ReduceStockReq{}
-	mi := &file_protobuf_inventory_proto_msgTypes[4]
+	mi := &file_protobuf_inventory_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -227,7 +315,7 @@ func (x *ReduceStockReq) String() string {
 func (*ReduceStockReq) ProtoMessage() {}
 
 func (x *ReduceStockReq) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[4]
+	mi := &file_protobuf_inventory_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,7 +328,7 @@ func (x *ReduceStockReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReduceStockReq.ProtoReflect.Descriptor instead.
 func (*ReduceStockReq) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{4}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ReduceStockReq) GetProductId() int64 {
@@ -266,7 +354,7 @@ type ReduceStockRes struct {
 
 func (x *ReduceStockRes) Reset() {
 	*x = ReduceStockRes{}
-	mi := &file_protobuf_inventory_proto_msgTypes[5]
+	mi := &file_protobuf_inventory_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -278,7 +366,7 @@ func (x *ReduceStockRes) String() string {
 func (*ReduceStockRes) ProtoMessage() {}
 
 func (x *ReduceStockRes) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[5]
+	mi := &file_protobuf_inventory_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -291,7 +379,7 @@ func (x *ReduceStockRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReduceStockRes.ProtoReflect.Descriptor instead.
 func (*ReduceStockRes) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{5}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ReduceStockRes) GetSuccess() bool {
@@ -311,7 +399,7 @@ type RestockReq struct {
 
 func (x *RestockReq) Reset() {
 	*x = RestockReq{}
-	mi := &file_protobuf_inventory_proto_msgTypes[6]
+	mi := &file_protobuf_inventory_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -323,7 +411,7 @@ func (x *RestockReq) String() string {
 func (*RestockReq) ProtoMessage() {}
 
 func (x *RestockReq) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[6]
+	mi := &file_protobuf_inventory_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -336,7 +424,7 @@ func (x *RestockReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RestockReq.ProtoReflect.Descriptor instead.
 func (*RestockReq) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{6}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *RestockReq) GetProductId() int64 {
@@ -362,7 +450,7 @@ type RestockRes struct {
 
 func (x *RestockRes) Reset() {
 	*x = RestockRes{}
-	mi := &file_protobuf_inventory_proto_msgTypes[7]
+	mi := &file_protobuf_inventory_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -374,7 +462,7 @@ func (x *RestockRes) String() string {
 func (*RestockRes) ProtoMessage() {}
 
 func (x *RestockRes) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_inventory_proto_msgTypes[7]
+	mi := &file_protobuf_inventory_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -387,7 +475,7 @@ func (x *RestockRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RestockRes.ProtoReflect.Descriptor instead.
 func (*RestockRes) Descriptor() ([]byte, []int) {
-	return file_protobuf_inventory_proto_rawDescGZIP(), []int{7}
+	return file_protobuf_inventory_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *RestockRes) GetSuccess() bool {
@@ -401,7 +489,12 @@ var File_protobuf_inventory_proto protoreflect.FileDescriptor
 
 const file_protobuf_inventory_proto_rawDesc = "" +
 	"\n" +
-	"\x18protobuf/inventory.proto\x12\tinventory\"I\n" +
+	"\x18protobuf/inventory.proto\x12\tinventory\"/\n" +
+	"\x0eDeleteStockReq\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\x03R\tproductId\"*\n" +
+	"\x0eDeleteStockRes\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"I\n" +
 	"\fInitStockReq\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x01 \x01(\x03R\tproductId\x12\x1a\n" +
@@ -426,13 +519,14 @@ const file_protobuf_inventory_proto_rawDesc = "" +
 	"\bquantity\x18\x02 \x01(\x05R\bquantity\"&\n" +
 	"\n" +
 	"RestockRes\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\x99\x02\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe0\x02\n" +
 	"\x10InventoryService\x12?\n" +
 	"\tInitStock\x12\x17.inventory.InitStockReq\x1a\x17.inventory.InitStockRes\"\x00\x12B\n" +
 	"\n" +
 	"CheckStock\x12\x18.inventory.CheckStockReq\x1a\x18.inventory.CheckStockRes\"\x00\x12E\n" +
 	"\vReduceStock\x12\x19.inventory.ReduceStockReq\x1a\x19.inventory.ReduceStockRes\"\x00\x129\n" +
-	"\aRestock\x12\x15.inventory.RestockReq\x1a\x15.inventory.RestockRes\"\x00BMZKgithub.com/yehezkiel1086/go-grpc-inventory-microservices/protobuf/inventoryb\x06proto3"
+	"\aRestock\x12\x15.inventory.RestockReq\x1a\x15.inventory.RestockRes\"\x00\x12E\n" +
+	"\vDeleteStock\x12\x19.inventory.DeleteStockReq\x1a\x19.inventory.DeleteStockRes\"\x00BMZKgithub.com/yehezkiel1086/go-grpc-inventory-microservices/protobuf/inventoryb\x06proto3"
 
 var (
 	file_protobuf_inventory_proto_rawDescOnce sync.Once
@@ -446,28 +540,32 @@ func file_protobuf_inventory_proto_rawDescGZIP() []byte {
 	return file_protobuf_inventory_proto_rawDescData
 }
 
-var file_protobuf_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_protobuf_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_protobuf_inventory_proto_goTypes = []any{
-	(*InitStockReq)(nil),   // 0: inventory.InitStockReq
-	(*InitStockRes)(nil),   // 1: inventory.InitStockRes
-	(*CheckStockReq)(nil),  // 2: inventory.CheckStockReq
-	(*CheckStockRes)(nil),  // 3: inventory.CheckStockRes
-	(*ReduceStockReq)(nil), // 4: inventory.ReduceStockReq
-	(*ReduceStockRes)(nil), // 5: inventory.ReduceStockRes
-	(*RestockReq)(nil),     // 6: inventory.RestockReq
-	(*RestockRes)(nil),     // 7: inventory.RestockRes
+	(*DeleteStockReq)(nil), // 0: inventory.DeleteStockReq
+	(*DeleteStockRes)(nil), // 1: inventory.DeleteStockRes
+	(*InitStockReq)(nil),   // 2: inventory.InitStockReq
+	(*InitStockRes)(nil),   // 3: inventory.InitStockRes
+	(*CheckStockReq)(nil),  // 4: inventory.CheckStockReq
+	(*CheckStockRes)(nil),  // 5: inventory.CheckStockRes
+	(*ReduceStockReq)(nil), // 6: inventory.ReduceStockReq
+	(*ReduceStockRes)(nil), // 7: inventory.ReduceStockRes
+	(*RestockReq)(nil),     // 8: inventory.RestockReq
+	(*RestockRes)(nil),     // 9: inventory.RestockRes
 }
 var file_protobuf_inventory_proto_depIdxs = []int32{
-	0, // 0: inventory.InventoryService.InitStock:input_type -> inventory.InitStockReq
-	2, // 1: inventory.InventoryService.CheckStock:input_type -> inventory.CheckStockReq
-	4, // 2: inventory.InventoryService.ReduceStock:input_type -> inventory.ReduceStockReq
-	6, // 3: inventory.InventoryService.Restock:input_type -> inventory.RestockReq
-	1, // 4: inventory.InventoryService.InitStock:output_type -> inventory.InitStockRes
-	3, // 5: inventory.InventoryService.CheckStock:output_type -> inventory.CheckStockRes
-	5, // 6: inventory.InventoryService.ReduceStock:output_type -> inventory.ReduceStockRes
-	7, // 7: inventory.InventoryService.Restock:output_type -> inventory.RestockRes
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	2, // 0: inventory.InventoryService.InitStock:input_type -> inventory.InitStockReq
+	4, // 1: inventory.InventoryService.CheckStock:input_type -> inventory.CheckStockReq
+	6, // 2: inventory.InventoryService.ReduceStock:input_type -> inventory.ReduceStockReq
+	8, // 3: inventory.InventoryService.Restock:input_type -> inventory.RestockReq
+	0, // 4: inventory.InventoryService.DeleteStock:input_type -> inventory.DeleteStockReq
+	3, // 5: inventory.InventoryService.InitStock:output_type -> inventory.InitStockRes
+	5, // 6: inventory.InventoryService.CheckStock:output_type -> inventory.CheckStockRes
+	7, // 7: inventory.InventoryService.ReduceStock:output_type -> inventory.ReduceStockRes
+	9, // 8: inventory.InventoryService.Restock:output_type -> inventory.RestockRes
+	1, // 9: inventory.InventoryService.DeleteStock:output_type -> inventory.DeleteStockRes
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -484,7 +582,7 @@ func file_protobuf_inventory_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_protobuf_inventory_proto_rawDesc), len(file_protobuf_inventory_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

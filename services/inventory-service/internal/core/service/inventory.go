@@ -32,3 +32,7 @@ func (s *InventoryService) ReduceStock(ctx context.Context, productId int, qty i
 func (s *InventoryService) Restock(ctx context.Context, productId int, qty int) (*domain.Inventory, error) {
 	return s.repo.Restock(ctx, productId, qty)
 }
+
+func (s *InventoryService) DeleteStock(ctx context.Context, productId int) error {
+	return s.repo.DeleteStock(ctx, productId)
+}

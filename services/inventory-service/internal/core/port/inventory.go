@@ -11,6 +11,7 @@ type InventoryRepository interface {
 	CheckStock(ctx context.Context, productID int) (*domain.Inventory, error)
 	ReduceStock(ctx context.Context, productId int, qty int) (*domain.Inventory, error)
 	Restock(ctx context.Context, productId int, qty int) (*domain.Inventory, error)
+	DeleteStock(ctx context.Context, productId int) error
 }
 
 type InventoryService interface {
@@ -18,4 +19,5 @@ type InventoryService interface {
 	CheckStock(ctx context.Context, productID int) (*domain.Inventory, error)
 	ReduceStock(ctx context.Context, productId int, qty int) (*domain.Inventory, error)
 	Restock(ctx context.Context, productId int, qty int) (*domain.Inventory, error)
+	DeleteStock(ctx context.Context, productId int) error
 }

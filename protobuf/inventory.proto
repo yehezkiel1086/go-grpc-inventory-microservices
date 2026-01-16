@@ -8,6 +8,15 @@ service InventoryService {
   rpc CheckStock(CheckStockReq) returns (CheckStockRes) {}
   rpc ReduceStock(ReduceStockReq) returns (ReduceStockRes) {}
   rpc Restock(RestockReq) returns (RestockRes) {}
+  rpc DeleteStock(DeleteStockReq) returns (DeleteStockRes) {}
+}
+
+message DeleteStockReq {
+  int64 product_id = 1;
+}
+
+message DeleteStockRes {
+  bool success = 1;
 }
 
 message InitStockReq {
